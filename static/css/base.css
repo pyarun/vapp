@@ -1,0 +1,8 @@
+.loadingimg{
+	background-image: url('../img/loading.gif');
+	height:16px;
+	width:16px;
+	margin:5px;
+	display:-moz-inline-stack;
+	display:-moz-stack;
+}

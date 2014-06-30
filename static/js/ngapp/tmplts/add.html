@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h4> Add New Campaign </h4>
+        <hr />
+        
+        <form name="addItemForm" novalidate >
+          <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Enter Your Question Here</label>
+              <textarea class="form-control" rows="5" name="question" ng-model="item.question" maxlength=100 required ></textarea>
+              
+              <div  ng-show="showerrors && addItemForm.question.$error.required" class="text-danger">This field is required!</div>
+              <div  ng-show="showerrors && addItemForm.question.$error.maxlength" class="text-danger">Max 100 characters allowed.</div>
+            </div>
+          </div>
+        
+          <div class="col-md-6 col-sm-6">
+            <div class="form-group" >
+              <label class="control-label"><i class="fa fa-calendar"></i>Active Date</label>
+              <input type="text" class="form-control" name="lastdate" ng-model="item.lastdate" name="date" bs-datepicker required />
+              <div  ng-show="showerrors && addItemForm.lastdate.$error.required" class="text-danger">This field is required!</div>
+            </div>
+            <div class="form-group">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="" ng-model="item.anonymous">
+                  Allow Anonymous
+                </label>
+              </div>
+            </div>
+            <span ng-if="!editingMode">
+              <button class="btn btn-primary" ng-click="saveItemAsDraft()">Save as Draft</button>
+              <button type="submit" class="btn btn-success" ng-click="saveItem()">Save & Publish</button>
+            </span>
+            <span ng-if="editingMode">
+              <button type="submit" class="btn btn-success" ng-click="updateItem()">Save</button>
+            </span>
+            <div ajax-loader show="show" size="5"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
