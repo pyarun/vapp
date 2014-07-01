@@ -19,7 +19,7 @@
           <div class="col-md-6 col-sm-6">
             <div class="form-group" >
               <label class="control-label"><i class="fa fa-calendar"></i>Active Date</label>
-              <input type="text" class="form-control" name="lastdate" ng-model="item.lastdate" name="date" bs-datepicker required />
+              <input type="text" class="form-control" name="lastdate" minDate="today" ng-model="item.lastdate" name="date" bs-datepicker required />
               <div  ng-show="showerrors && addItemForm.lastdate.$error.required" class="text-danger">This field is required!</div>
             </div>
             <div class="form-group">

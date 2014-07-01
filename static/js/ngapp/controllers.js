@@ -10,6 +10,7 @@ controllers.controller("AddCampaignCtrl", ["$scope", "$log", "QAItemService", "$
 	$scope.saveItem = function(){
 		$scope.show=true;
 		if($scope.addItemForm.$valid){
+			$scope.item.publish=true;
 			QAItemService.create($scope.item);
 			$log.debug("item saved");
 			$alert({
@@ -27,7 +28,24 @@ controllers.controller("AddCampaignCtrl", ["$scope", "$log", "QAItemService", "$
 	};
 	
 	$scope.saveItemAsDraft = function(){
-		$log.debug("item drafted");	
+		$scope.show=true;
+		if($scope.addItemForm.$valid){
+			$scope.item.publish=false;
+			QAItemService.create($scope.item);
+			$log.debug("item drafted");	
+			$alert({
+			  "content": "Item Added",
+			  "type": "success",
+			  "placement":"top-right",
+			  "data-container" : "body",
+			  "duration" : "3"
+			});
+			$scope.item = {};
+		}else{
+			$scope.showerrors=true;
+		}
+		$scope.show=false;
+		
 	};
 	
 	
