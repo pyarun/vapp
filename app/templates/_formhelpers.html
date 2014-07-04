@@ -1,0 +1,121 @@
+{% macro render_field(field) %}
+
+{% if field.type == "FileField" %}
+<dl class="dl-horizontal">
+  <dt>{{ field.label }}</dt>
+  <dd>
+  {{ field(**kwargs)|safe }} {% if not field.label.text == 'Photos' %}{{ field.data }}{% endif %}
+        {% if field.errors %}
+        {% for error in field.errors %}
+          <span class="help-block">
+            <p class="text-error"><span class='label label-danger'>Oh!</span> {{ error }}</p>
+          </span>
+          {% endfor %}
+      {% endif %}
+      {% if field.description %}
+        <br />
+        <span class="muted" style="margin-top: 20px;"> {{ field.description }}</span>
+      {% endif %}
+  </dd>
+</dl>
+
+{% elif field.type == "BooleanField" %}
+
+  <dl class="dl-horizontal">
+    <dt>
+      {{ field.label }}
+    </dt>
+    <dd>
+      {{ field(**kwargs)|safe }}
+      {% if field.errors %}
+        {% for error in field.errors %}
+          <span class="help-block">
+            <p class="text-error"><span class='label label-danger'>Oh!</span> {{ error }}</p>
+          </span>
+          {% endfor %}
+      {% endif %}
+      </dd>
+  </dl>
+{% else %}
+
+<dl class="dl-horizontal">
+<dt>{{ field.label }}</dt>
+<dd> 
+  {{ field(**kwargs)|safe }}
+  {% if field.errors %}
+    {% for error in field.errors %}
+      <span class="help-block">
+        <p class="text-error"><span class='label label-danger'>Oh!</span> {{ error }}</p>
+      </span>
+    {% endfor %}
+  {% endif %}
+  {% if field.description %}
+  <span class="muted"> {{ field.description }}</span>
+  {% endif %}
+</dd>
+</dl>
+
+{% endif %}
+{% endmacro %}
+
+{% macro profile_nav(current_menu,school,menus) %}
+  <div class="span2">
+      <ul class="nav nav-list affix-top">
+        <li {% if current_menu == 'schools.schoolindex' %}
+          class="active"
+          {% endif %}>
+          <a href="/{{ school.slug }}/home/">Home</a>
+        </li>
+        <li {% if current_menu == 'schools.schoolevents' %}
+          class="active"
+          {% endif %}>
+          <a href="/{{ school.slug }}/events/">Events</a>
+        </li>
+        <li {% if current_menu == 'schools.schoolactivities' %}
+          class="active"
+          {% endif %}>
+          <a href="/{{ school.slug }}/activities/">Activities</a>
+        </li>
+        
+      </ul>
+    </div>
+{% endmacro %}
+
+{% macro render_ajax_field(field,error_ajax) %}
+<div class="clearfix">
+{{ field.label }}
+<div class="input"> 
+  {{ field(**kwargs)|safe }}
+      <span class="help-block" style="display:none">
+        <p class="text-error"><span class='label label-danger {{ field.id }}-error'> {{ error_ajax }} </span></p>
+      </span>
+  {% if field.errors %}
+    {% for error in field.errors %}
+      <span class="help-block">
+        <p class="text-error"><span class='label label-danger'>Oh!</span> {{ error }}</p>
+      </span>
+    {% endfor %}
+  {% endif %}
+</div>
+</div>
+{% endmacro %}
+
+{% macro render_ajax_pre_field(field,pre_text,error_ajax) %}
+<div class="clearfix">
+{{ field.label }}
+  <div class="input-group span9">
+    <span class="input-group-addon">{{ pre_text }}</span>
+    {{ field(**kwargs)|safe }}
+  </div>
+  <span class="help-block" style="display:none">
+    <p class="text-error"><span class='label label-danger {{ field.id }}-error'> {{ error_ajax }} </span></p>
+  </span>
+  {% if field.errors %}
+    {% for error in field.errors %}
+      <span class="help-block">
+        <p class="text-error"><span class='label label-danger'>Oh!</span> {{ error }}</p>
+      </span>
+    {% endfor %}
+  {% endif %}
+</div>
+{% endmacro %}
