@@ -16,4 +16,6 @@ gunicorn==18.0
 ipdb==0.8
 ipython==2.1.0
 itsdangerous==0.24
-wsgiref==0.1.2
+sqlalchemy-migrate==0.9.1
+
+

@@ -2,6 +2,65 @@
 
 var services = angular.module("vApp.services", []);
 
+
+services.service("AuthService", ["$log","$http", "$alert", function($log, $http, $alert){
+	
+	var user = {
+			//displayName: "Some Name",
+			//gid:google unique id
+			isLoggedIn:false
+	};
+	
+	return {
+		user: user,
+		
+		googleLogin:function(info){
+			debugger;
+			if(info.hd=="vertisinfotech.com"){
+				if(info.status.google_logged_in && info.status.signed_in){
+					user.isLoggedIn=true;
+					var data = {
+							"access_token" : info.access_token
+					}
+					var url = "https://www.googleapis.com/plus/v1/people/me?" + angular.element.param(data);
+					$http.get(url).success(function(response){
+						user.displayName = response.displayName;
+						user.gid = response.id;
+					});
+				}
+			}else{
+				//raise authorization msg 
+				user.isLoggedIn=false;
+				$log.info("user not in vertisinfotech.com domain");
+				$alert({
+				  "content": "You are not authorised to access this application.",
+				  "type": "error",
+				  "placement":"top-right",
+				  "data-container" : "body",
+				  "duration" : "3"
+				});
+			}
+			
+		},
+		
+		login:function(info){
+			this.googleLogin(info);
+		},
+		logout:function(){
+			
+		},
+		isAuthenticated:function(){
+			return user.isLoggedIn
+		},
+		getId: function(){
+			return user.gid;
+		}
+	
+	};
+	
+}]);
+
+
 services.service("QAItemService", function($log, $localStorage){
 	
 //	var items = $localStorage.QAModel || [];

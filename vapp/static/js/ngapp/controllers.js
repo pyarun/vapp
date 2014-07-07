@@ -2,6 +2,39 @@
 
 var controllers = angular.module("vApp.controllers", []);
 
+
+controllers.controller('LoginCtrl', ['$scope', function($scope){
+	
+	$scope.$on('event:google-plus-signin-success', function (event,authResult) {
+    // Send login to server or save into cookie
+		debugger;
+  });
+  $scope.$on('event:google-plus-signin-failure', function (event,authResult) {
+    // Auth failure or signout detected
+  });
+	
+}]);
+
+controllers.controller("AuthCtrl", ["$scope", "$log", "AuthService", "$rootScope",
+                                    function($scope, $log, AuthService, $rootScope){
+	
+	$rootScope.AuthService = AuthService;
+	
+	$scope.$on('event:google-plus-signin-success', function (event,authResult) {
+    // Send login to server or save into cookie
+		$log.debug("user logged in");
+		$log.debug(authResult);
+		AuthService.googleLogin(authResult);
+  });
+  $scope.$on('event:google-plus-signin-failure', function (event,authResult) {
+    // Auth failure or signout detected
+  	$log.debug("error in login");
+  	$log.debug(authResult);
+  });
+	
+}]);
+
+
 controllers.controller("AddCampaignCtrl", ["$scope", "$log", "QAItemService", "$alert",
                                            function($scope, $log, QAItemService, $alert){
 	$scope.show=false;
@@ -52,8 +85,10 @@ controllers.controller("AddCampaignCtrl", ["$scope", "$log", "QAItemService", "$
 }]);
 
 
-controllers.controller("listCtrl", ["$scope", "QAItemService", "$modal", "VoteService",
-                                    function($scope, QAItemService, $modal, VoteService){
+controllers.controller("listCtrl", ["$scope", "QAItemService", "$modal", "VoteService", "$log",
+                                    function($scope, QAItemService, $modal, VoteService, $log){
+	
+	
 	$scope.allItems = QAItemService.all;
 	
 	/*deletes a item from list*/
