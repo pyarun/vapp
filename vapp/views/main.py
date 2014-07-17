@@ -7,7 +7,7 @@ from vapp import app, db
 import urllib2, json
 import urllib
 from flask_login import login_user
-from models import User
+# from vapp.models import User
 
 class LoginView(MethodView):
     """

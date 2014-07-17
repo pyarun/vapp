@@ -1,19 +1,21 @@
 from flask import Flask
-import os
+import os, sys
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_googlelogin import GoogleLogin
 
-APPLICATION_DIR = os.path.abspath(os.path.dirname(__file__))
+APPLICATION_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+if not APPLICATION_DIR in sys.path:
+    sys.path.insert(0, APPLICATION_DIR)
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 #configure db
-app = Flask(__name__)
 db = SQLAlchemy(app)
 
-import views
-#configure login manager
+from vapp import  views, models
+# configure login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 googlelogin = GoogleLogin(app, login_manager)
